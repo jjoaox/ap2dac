@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<h:head><title>Página de Listagem</title></h:head>
+	
+	<h:body>
+	
+		<p:panel header="Listagem de jogadas">
+				<p:messages id="messages" showDetail="true" closable="true">
+	            	<p:autoUpdate/>
+	        	</p:messages>
+	        	<p:growl id="message" showDetail="true"/>
+	        	<p:link outcome="index" value="voltar"/>
+	        	<h:form>
+		        	<p:dataTable value="#{jogoBean.jogos}" var="j">
+		        		<p:column headerText="Id:"><p:outputLabel value="#{j.id}"></p:outputLabel></p:column>
+		        		<p:column headerText="Valores:"><p:outputLabel value="#{j.v1}, #{j.v2}, #{j.v3}, #{j.v4}, #{j.v5}"/></p:column>
+		        		<p:column headerText="Data:"><p:outputLabel value="#{j.dataCadastro}"><f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Fortaleza" /></p:outputLabel></p:column>
+		        		<p:column><p:commandButton value="Editar" action="edicao.xhtml" ajax="false"><f:setPropertyActionListener value="#{j}" target="#{jogoBean.jogo}" /></p:commandButton></p:column>
+		        		<p:column><p:commandButton value="Excluir" actionListener="#{jogoBean.deletar(j)}"/></p:column>
+		        		<p:column>
+			        		<p:commandButton value="Maior" actionListener="#{jogoBean.maiorValor}" update="message">
+			        			<f:setPropertyActionListener value="#{j}" target="#{jogoBean.jogo}" />
+			        			<p:confirm type="popup" header="Confirmation" message="O maior dos valores é: #{jogoBean.mValor}" icon="pi pi-info-circle"/>
+			        		</p:commandButton>
+		        		</p:column>
+		        	</p:dataTable>
+		        	<p:confirmPopup global="true">
+            			<p:commandButton value="Certo" type="button" styleClass="ui-confirm-popup-yes" />
+        			</p:confirmPopup>
+	        	</h:form>
+			</p:panel>
+			
+	</h:body>
+	
+</html>
